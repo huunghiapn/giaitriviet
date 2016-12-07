@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/card_background"
+        android:elevation="2dp"
+        android:minHeight="50dp"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/userVideoThumbImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:adjustViewBounds="true"
+            android:maxWidth="150dip" />
+
+        <TextView
+            android:id="@+id/userVideoTitleTextView"
+            style="@style/listTitle"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/userVideoThumbImageView"
+            android:textDirection="locale" />
+
+        <TextView
+            android:id="@+id/userVideoDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/userVideoTitleTextView"
+            android:layout_toRightOf="@id/userVideoThumbImageView"
+            android:paddingLeft="5dp"
+            android:paddingTop="1dp"
+            android:text="@string/empty_textview"
+            android:textColor="@color/black"
+            android:textDirection="locale"
+            android:textSize="11sp" />
+
+    </RelativeLayout>
+</FrameLayout>

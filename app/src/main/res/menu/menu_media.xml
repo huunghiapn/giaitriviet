@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:universal="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/download"
+        android:title="@string/save"
+        universal:showAsAction="always" />
+
+    <item
+        android:id="@+id/miShare"
+        android:title="@string/share"
+        universal:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        universal:showAsAction="always" />
+</menu>

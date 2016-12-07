@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "456894013369",
+    "firebase_url": "https://giaitriviet-41d59.firebaseio.com",
+    "project_id": "giaitriviet-41d59",
+    "storage_bucket": "giaitriviet-41d59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456894013369:android:3b34627dc675e3cc",
+        "android_client_info": {
+          "package_name": "com.nghianh.giaitriviet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456894013369-l0raifd2fa9gdlfoq2davt53b5kg1b0s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcleYyYy-Ha_GGf54A9kue4EvS7VXCaQg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
