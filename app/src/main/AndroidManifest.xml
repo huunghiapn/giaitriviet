@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nghianh.giaitriviet"
-    android:versionCode="15"
-    android:versionName="1.0.7">
+    android:versionCode="16"
+    android:versionName="1.0.8">
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="16"
         android:targetSdkVersion="23" />
 
     <!-- Always Required to get content and check if internet is available -->
@@ -36,6 +36,7 @@
         android:required="true" />
 
     <application
+        android:name=".GTVApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -43,6 +44,7 @@
         <!-- Activities -->
         <activity
             android:name=".SplashScreen"
+            android:noHistory="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,6 +55,8 @@
         <activity
             android:name="com.nghianh.giaitriviet.MainActivity"
             android:label="@string/app_name"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeBar">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />

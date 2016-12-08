@@ -23,7 +23,7 @@
 
     <EditText
         android:id="@+id/mailAdd"
-        android:inputType="textEmailAddress"
+        android:inputType="textPersonName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -31,5 +31,5 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif"
-        android:hint="Email" />
+        android:hint="Tên của bạn" />
 </LinearLayout>

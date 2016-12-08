@@ -1,6 +1,8 @@
 package com.nghianh.giaitriviet.providers.tv;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,17 +22,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.LoadControl;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -56,7 +49,6 @@ public class TvFragment extends Fragment {
     private RelativeLayout rl;
 
     private JCVideoPlayerStandard jcVideoPlayerStandard;
-    private SimpleExoPlayer exoPlayer;
     private List<Map<String, String>> ListTV;
     private String currentTV;
     private InterstitialAd mInterstitialAd;
@@ -67,6 +59,11 @@ public class TvFragment extends Fragment {
             mInterstitialAd = new InterstitialAd(getContext());
             mInterstitialAd.setAdUnitId(getString(R.string.interstitialAd_id));
             mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
+                    jcVideoPlayerStandard.startButton.performClick();
+                }
 
                 @Override
                 public void onAdLoaded() {
@@ -86,18 +83,7 @@ public class TvFragment extends Fragment {
         if (!(getActivity() instanceof MainActivity)) throw new AssertionError();
 
         rl = (RelativeLayout) inflater.inflate(R.layout.fragment_tv, container, false);
-        // 1. Create a default TrackSelector
-        Handler mainHandler = new Handler();
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory =
-                new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector =
-                new DefaultTrackSelector(mainHandler, videoTrackSelectionFactory);
-
-        // 2. Create a default LoadControl
-        LoadControl loadControl = new DefaultLoadControl();
-        exoPlayer  = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
-        //jcVideoPlayerStandard = (JCVideoPlayerStandard) rl.findViewById(R.id.custom_videoplayer_standard);
+        jcVideoPlayerStandard = (JCVideoPlayerStandard) rl.findViewById(R.id.custom_videoplayer_standard);
         FloatingActionButton fab = (FloatingActionButton) rl.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +103,17 @@ public class TvFragment extends Fragment {
                                 EditText edit = (EditText) dialogView.findViewById(R.id.mailAdd);
                                 String text = edit.getText().toString();
                                 new ReportDiedTV().execute(currentTV, text);
+                                Intent i = new Intent(Intent.ACTION_SEND);
+                                i.setData(Uri.parse("mailto:"));
+                                i.setType("message/rfc822");
+                                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"huunghia.it11@gmail.com"});
+                                i.putExtra(Intent.EXTRA_SUBJECT, "Report TV died link");
+                                i.putExtra(Intent.EXTRA_TEXT, "From: " + text + "\n" + "This TV link died: " + currentTV);
+                                try {
+                                    startActivity(Intent.createChooser(i, "Send mail..."));
+                                } catch (android.content.ActivityNotFoundException ex) {
+                                    Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                                }
                                 Snackbar.make(v, "Thanks for you report:" + text, Snackbar.LENGTH_LONG)
                                         .setAction("OK", null).show();
                             }
@@ -133,7 +130,7 @@ public class TvFragment extends Fragment {
         });
         setHasOptionsMenu(true);
         myHandler = new Handler();
-        myHandler.postDelayed(myRunnable, 60000);
+        myHandler.postDelayed(myRunnable, 300000);
 
         return rl;
     }
@@ -175,7 +172,7 @@ public class TvFragment extends Fragment {
                 //Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_actionbar);
                 //toolbar.setTitle(spinner.getSelectedItem().toString());
                 currentTV = lblTVUrl[position];
-                jcVideoPlayerStandard.setUp(lblTVUrl[position], spinner.getSelectedItem().toString());
+                jcVideoPlayerStandard.setUp(lblTVUrl[position], JCVideoPlayer.SCREEN_LAYOUT_NORMAL, spinner.getSelectedItem().toString());
                 jcVideoPlayerStandard.thumbImageView.setImageResource(R.drawable.ic_launcher);
                 jcVideoPlayerStandard.startButton.performClick();
             }

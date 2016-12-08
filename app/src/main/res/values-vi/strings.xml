@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Giải trí Việt</string>
     <string name="about_header">Về chúng tôi</string>
-    <string name="about_text">Thế giới giải trí tổng hợp cho bạn<![CDATA[     <b>Version 1.0.4</b>     <br><br>Cám ơn bạn đã sử dụng sản phẩm này.<br><br>     <i>Phát triển bởi NghiaNH&#174;</i>     ]]></string>
+    <string name="about_text">Thế giới giải trí tổng hợp cho bạn<![CDATA[     <b>Version 1.0.8</b>     <br><br>Cám ơn bạn đã sử dụng sản phẩm này.<br><br>     <i>Phát triển bởi NghiaNH&#174;</i>     ]]></string>
     <string name="already_loading">Nội dung mới nhất đã được cập nhật!</string>
     <string name="cancel">Bỏ qua</string>
     <string name="comments">Bình luận</string>

@@ -30,6 +30,8 @@ import com.nghianh.giaitriviet.util.Log;
 import java.util.List;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import hotchemi.android.rate.AppRate;
+import hotchemi.android.rate.OnClickButtonListener;
 
 public class MainActivity extends AppCompatActivity implements NavDrawerCallback {
 
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavDrawerCallback
             setContentView(R.layout.activity_main_tablet);
             Helper.setStatusBarColor(MainActivity.this,
                     ContextCompat.getColor(this, R.color.myPrimaryDarkColor));
-        } else if (Config.USE_NEW_DRAWER == true) {
+        } else if (Config.USE_NEW_DRAWER) {
             setContentView(R.layout.activity_main_alternate);
         } else {
             setContentView(R.layout.activity_main);
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavDrawerCallback
         mNavigationDrawerFragment = (NavDrawerFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_drawer);
 
-        if (Config.USE_NEW_DRAWER == true && !useTabletMenu()) {
+        if (Config.USE_NEW_DRAWER && !useTabletMenu()) {
             mNavigationDrawerFragment.setup(R.id.scrimInsetsFrameLayout,
                     (DrawerLayout) findViewById(R.id.drawer), mToolbar);
             mNavigationDrawerFragment
@@ -155,9 +157,26 @@ public class MainActivity extends AppCompatActivity implements NavDrawerCallback
 
         // Checking if the user would prefer to show the menu on start
         boolean checkBox = prefs.getBoolean("menuOpenOnStart", false);
-        if (checkBox == true && !useTabletMenu()) {
+        if (checkBox && !useTabletMenu()) {
             mNavigationDrawerFragment.openDrawer();
         }
+
+        AppRate.with(this)
+                .setInstallDays(3) // default 10, 0 means install day.
+                .setLaunchTimes(3) // default 10
+                .setRemindInterval(2) // default 1
+                .setShowLaterButton(true) // default true
+                .setDebug(false) // default false
+                .setOnClickButtonListener(new OnClickButtonListener() { // callback listener.
+                    @Override
+                    public void onClickButton(int which) {
+                        Log.d(MainActivity.class.getName(), Integer.toString(which));
+                    }
+                })
+                .monitor();
+
+        // Show a dialog if meets conditions
+        AppRate.showRateDialogIfMeetsConditions(this);
     }
 
     @Override

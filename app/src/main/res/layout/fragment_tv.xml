@@ -2,10 +2,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/lib/com.nghianh.giaitriviet"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/black">
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView android:id="@+id/player_view"
+    <!--<com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/player_view"
         android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
@@ -46,8 +46,8 @@
 
         </LinearLayout>
 
-    </LinearLayout>
-    <!--<fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+    </LinearLayout>-->
+    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
         android:id="@+id/custom_videoplayer_standard"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -60,6 +60,6 @@
             android:layout_marginBottom="50dp"
             android:src="@drawable/bullet_error"
             app:srcCompat="@android:drawable/ic_dialog_email" />
-    </fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard>-->
+    </fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard>
 
 </RelativeLayout>

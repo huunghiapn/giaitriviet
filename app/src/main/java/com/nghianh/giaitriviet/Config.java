@@ -33,7 +33,7 @@ public class Config {
 
     public static List<NavItem> configuration() {
 
-        List<NavItem> i = new ArrayList<NavItem>();
+        List<NavItem> i = new ArrayList<>();
 
         //DONT MODIFY ABOVE THIS LINE
 
@@ -63,8 +63,8 @@ public class Config {
 
         i.add(new NavItem("Youtube Channel", NavItem.SECTION));
 
-        i.add(new NavItem("Bong Da", R.drawable.youtube_icon, NavItem.ITEM, VideosFragment.class,
-                new String[]{"PLPYoHdBDRq5VKQReLPCHTsnDlkTgscjox", "UCkCu0hmls6AE72rZxsht3lQ", "0"}));
+        //i.add(new NavItem("Bong Da", R.drawable.youtube_icon, NavItem.ITEM, VideosFragment.class,
+        //new String[]{"PLPYoHdBDRq5VKQReLPCHTsnDlkTgscjox", "UCkCu0hmls6AE72rZxsht3lQ", "0"}));
         i.add(new NavItem("LARVA FUNNY", R.drawable.youtube_icon, NavItem.ITEM, VideosFragment.class,
                 new String[]{"PLbxRosGT0CCZOWB7FN1b709EAdFK4NNcW", "UCkCu0hmls6AE72rZxsht3lQ", "1"}));
         //i.add(new NavItem("Trang News", R.drawable.youtube_icon, NavItem.ITEM, VideosFragment.class,

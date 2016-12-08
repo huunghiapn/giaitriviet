@@ -44,8 +44,10 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.android.exoplayer:exoplayer:r2.0.4'
-    compile 'fm.jiecao:jiecaovideoplayer:3.6.3'
+    compile 'com.github.hotchemi:android-rate:1.0.1'
+    //compile 'com.google.android.exoplayer:exoplayer:r2.0.4'
+    //compile 'fm.jiecao:jiecaovideoplayer:3.6.3'
+    compile 'fm.jiecao:jiecaovideoplayer:4.8.3'
     compile 'com.github.mark-dlc:RadioPlayerService:88b5de0'
     compile 'org.jsoup:jsoup:1.10.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -60,6 +62,10 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
+    // Leak detect
+    //debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    //releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    //testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
 
 apply plugin: 'com.google.gms.google-services'
