@@ -64,4 +64,14 @@
     <string name="description_material_motion">Ứng dụng này là miễn phí, nó sẽ luôn là miễn phí cho đến khi nào các nhà cung cấp truyền hình, tin tức không cho phép tôi cung cấp các nội dung này miến phí nữa.</string>
     <string name="description_material_shadow">Within the material environment, virtual lights illuminate the scene. Key lights create directional shadows, while ambient light creates soft shadows from all angles.</string>
     <string name="label_grant_permissions">Vui lòng cấp quyền truy cập vào bộ nhớ để ứng dụng hoạt động tốt hơn. Cám ơn !</string>
+    <string name="invitation_title">I found a good TV online app here</string>
+    <string name="invitation_message">All lastest new, television, radio channel in Vietnam can be found here</string>
+    <string name="invitation_deep_link">https://mq784.app.goo.gl/qL6j</string>
+    <string name="invitation_cta">Install!</string>
+    <string name="invitation_custom_image">https://lh3.googleusercontent.com/BsNV6voYAUefnthsfCJgRW6svVBwy9V_pNsS0pcFVQa9fLGkcCuEnDvwQyI4fF7qczEM=w300-rw</string>
+    <string name="send_failed">Send invitation failed!</string>
+    <string name="google_play_services_error">google_play_services_error</string>
+    <string name="title_material_bold">Nhanh, nhẹ, đơn giản</string>
+    <string name="title_material_metaphor">Một ứng dụng của người Việt</string>
+    <string name="title_material_motion">Luôn luôn miễn phí</string>
 </resources>

@@ -111,6 +111,7 @@ public class Config {
         //i.add(new NavItem("NghiaNguyenIT", R.drawable.wp_32x32, NavItem.ITEM, WebviewFragment.class,
         //new String[]{"http://www.nghianguyenit.net"}));
         //It's suggested to not change the content below this line
+        //i.add(new NavItem("Invites", R.drawable.mail_icon, NavItem.ITEM, CustomIntent.class, new String[]{CustomIntent.OPEN_REQUEST_INVITE, CustomIntent.OPEN_REQUEST_INVITE}));
 
         i.add(new NavItem("Device", NavItem.SECTION));
         i.add(new NavItem("Favorites", R.drawable.ic_action_favorite, NavItem.EXTRA, FavFragment.class, null));

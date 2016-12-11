@@ -205,20 +205,25 @@
     <string name="SETTING_URL" translatable="false">http://nhuaso9.com/List_TV.txt</string>
     <string name="SETTING_YT_URL" translatable="false">http://nhuaso9.com/List_YT.txt</string>
     <string name="report_die_link">Report this channel was died link?</string>
-    <string name="intro_title_1">intro1</string>
-    <string name="intro_description_1">mô tả intro ở đây</string>
-
     <string name="description_material_metaphor">Includes the latest news of the day in news sites, radio stations, television channels leading.</string>
     <string name="description_material_bold">Modern interface, simple operation, application watching television, except the lightest news ever.</string>
     <string name="description_material_motion">This application will be free until it is no longer free anymore. Maybe TV providers will prohibit this application activities for the free sharing of it..</string>
     <string name="description_material_shadow">Within the material environment, virtual lights illuminate the scene. Key lights create directional shadows, while ambient light creates soft shadows from all angles.</string>
 
-    <string name="title_permissions">Requesting permissions was never easier.</string>
+    <!--<string name="title_permissions">Requesting permissions was never easier.</string>
     <string name="description_permissions">This app needs the storage permission.</string>
-    <string name="label_grant_permissions">Please grant the permissions before proceeding.</string>
+    <string name="label_grant_permissions">Please grant the permissions before proceeding.</string>-->
 
     <string name="title_material_metaphor">An application developed by Vietnamese</string>
     <string name="title_material_bold">Fast, light, simple</string>
     <string name="title_material_motion">Always free</string>
-    <string name="title_material_shadow">Light and shadow</string>
+    <string name="title_material_shadow" translatable="false">Light and shadow</string>
+    <string name="invitation_title">I found a good TV online app here</string>
+    <string name="invitation_message">All lastest new, television, radio channel in Vietnam can be found here</string>
+    <string name="invitation_deep_link">https://mq784.app.goo.gl/qL6j</string>
+    <string name="invitation_cta">Install!</string>
+    <string name="invitation_custom_image">https://lh3.googleusercontent.com/BsNV6voYAUefnthsfCJgRW6svVBwy9V_pNsS0pcFVQa9fLGkcCuEnDvwQyI4fF7qczEM=w300-rw</string>
+    <string name="send_failed">Send invitation failed!</string>
+    <string name="google_play_services_error">google_play_services_error</string>
+    <string name="label_grant_permissions"></string>
 </resources>

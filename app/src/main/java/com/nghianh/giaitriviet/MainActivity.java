@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +23,13 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.appinvite.AppInvite;
+import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.google.android.gms.appinvite.AppInviteInvitationResult;
+import com.google.android.gms.appinvite.AppInviteReferral;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.nghianh.giaitriviet.drawer.NavDrawerCallback;
 import com.nghianh.giaitriviet.drawer.NavDrawerFragment;
 import com.nghianh.giaitriviet.drawer.NavItem;
@@ -33,7 +43,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import hotchemi.android.rate.AppRate;
 import hotchemi.android.rate.OnClickButtonListener;
 
-public class MainActivity extends AppCompatActivity implements NavDrawerCallback {
+public class MainActivity extends AppCompatActivity implements NavDrawerCallback, GoogleApiClient.OnConnectionFailedListener {
 
     //Data to pass to a fragment
     public static String FRAGMENT_DATA = "transaction_data";
@@ -45,14 +55,48 @@ public class MainActivity extends AppCompatActivity implements NavDrawerCallback
     private Toolbar mToolbar;
     private NavDrawerFragment mNavigationDrawerFragment;
     public static final int progress_bar_type = 0;
+    private GoogleApiClient mGoogleApiClient;
 
     public static final String PREF_KEY_FIRST_START = "com.nghianh.giaitriviet.PREF_KEY_FIRST_START";
     public static final int REQUEST_CODE_INTRO = 1;
+
+    private static final int REQUEST_INVITE = 0;
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private static boolean doubleBackToExitPressedOnce;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-8092675209428225~8500010598");
+
+        // Create an auto-managed GoogleApiClient with access to App Invites.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(AppInvite.API)
+                .enableAutoManage(this, this)
+                .build();
+        // Check for App Invite invitations and launch deep-link activity if possible.
+        // Requires that an Activity is registered in AndroidManifest.xml to handle
+        // deep-link URLs.
+        boolean autoLaunchDeepLink = true;
+        AppInvite.AppInviteApi.getInvitation(mGoogleApiClient, this, autoLaunchDeepLink)
+                .setResultCallback(
+                        new ResultCallback<AppInviteInvitationResult>() {
+                            @Override
+                            public void onResult(AppInviteInvitationResult result) {
+                                Log.d(TAG, "getInvitation:onResult:" + result.getStatus());
+                                if (result.getStatus().isSuccess()) {
+                                    // Extract information from the intent
+                                    Intent intent = result.getInvitationIntent();
+                                    String deepLink = AppInviteReferral.getDeepLink(intent);
+                                    String invitationId = AppInviteReferral.getInvitationId(intent);
+
+                                    // Because autoLaunchDeepLink = true we don't have to do anything
+                                    // here, but we could set that to false and manually choose
+                                    // an Activity to launch to handle the deep link here.
+                                    // ...
+                                }
+                            }
+                        });
 
         if (useTabletMenu()) {
             setContentView(R.layout.activity_main_tablet);
@@ -333,6 +377,25 @@ public class MainActivity extends AppCompatActivity implements NavDrawerCallback
                 super.onBackPressed();
             }
         } else {
+            //Checking for fragment count on backstack
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                getSupportFragmentManager().popBackStack();
+            } else if (!doubleBackToExitPressedOnce) {
+                doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Please click BACK again to exit.", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+            } else {
+                super.onBackPressed();
+                return;
+            }
+
             //super.onBackPressed();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(getString(R.string.dialog_exit))
@@ -346,20 +409,87 @@ public class MainActivity extends AppCompatActivity implements NavDrawerCallback
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }
+                    })
+                    .setNeutralButton("Help friends find me", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            showInvite();
+                        }
                     });
             AlertDialog alert = builder.create();
             alert.show();
         }
     }
 
+    private void showInvite() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Please chose one method:")
+                .setCancelable(true)
+                .setPositiveButton("Send message", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        try {
+                            Intent i = new Intent(Intent.ACTION_SEND);
+                            i.setType("text/plain");
+                            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+                            String sAux = "\nLet me recommend you this application\n\n";
+                            sAux = sAux + "https://play.google.com/store/apps/details?id=com.nghianh.giaitriviet \n\n";
+                            i.putExtra(Intent.EXTRA_TEXT, sAux);
+                            startActivity(Intent.createChooser(i, "Please choose one"));
+                        } catch (Exception e) {
+                            //e.toString();
+                        }
+                    }
+                })
+                .setNeutralButton("Send mail", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        onInviteClicked();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void onInviteClicked() {
+        Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
+                .setMessage(getString(R.string.invitation_message))
+                .setDeepLink(Uri.parse(getString(R.string.invitation_deep_link)))
+                .setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
+                .setCallToActionText(getString(R.string.invitation_cta))
+                .build();
+        startActivityForResult(intent, REQUEST_INVITE);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_INVITE) {
+            if (resultCode == RESULT_OK) {
+                // Get the invitation IDs of all sent messages
+                String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                for (String id : ids) {
+                    Log.d(TAG, "onActivityResult: sent invitation " + id);
+                }
+                return;
+            } else {
+                // Sending failed or it was canceled, show failure message to the user
+                // [START_EXCLUDE]
+                showMessage(getString(R.string.send_failed));
+                // [END_EXCLUDE]
+                return;
+            }
+        }
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         if (fragments != null)
             for (Fragment frag : fragments)
                 if (frag != null)
                     frag.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void showMessage(String msg) {
+        // TODO show mess
     }
 
     //Get the width of the drawer
@@ -386,5 +516,11 @@ public class MainActivity extends AppCompatActivity implements NavDrawerCallback
     //Check if we should adjust our layouts for tablets
     public boolean useTabletMenu() {
         return (getResources().getBoolean(R.bool.isWideTablet) && TABLET_LAYOUT);
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+        showMessage(getString(R.string.google_play_services_error));
     }
 }

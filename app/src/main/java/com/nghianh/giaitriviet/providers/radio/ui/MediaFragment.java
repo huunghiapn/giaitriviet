@@ -110,7 +110,7 @@ public class MediaFragment extends Fragment implements OnClickListener, RadioLis
         setHasOptionsMenu(true);
         initializeUIElements();
         myHandler = new Handler();
-        myHandler.postDelayed(myRunnable, 60000);
+        myHandler.postDelayed(myRunnable, 300000);
 
         //Get the arguments and 'parse' them
         arguments = MediaFragment.this.getArguments().getStringArray(MainActivity.FRAGMENT_DATA);
