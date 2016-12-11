@@ -77,7 +77,6 @@ public class ServiceStarter extends BroadcastReceiver {
         Log.v("INFO", "Push Notifications Enabled");
     }
 
-    ;
     // END_INCLUDE(set_alarm)
 
     /**

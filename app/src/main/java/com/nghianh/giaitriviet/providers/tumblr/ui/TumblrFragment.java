@@ -68,7 +68,6 @@ public class TumblrFragment extends Fragment implements PermissionsFragment {
         setHasOptionsMenu(true);
 
         String username = this.getArguments().getStringArray(MainActivity.FRAGMENT_DATA)[0];
-        ;
         baseurl = "http://" + username + ".tumblr.com/api/read/json?type=photo&num=" + perpage + "&start=";
 
         footerView = (LinearLayout) ll.findViewById(R.id.loading);

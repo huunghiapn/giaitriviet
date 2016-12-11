@@ -83,7 +83,6 @@ public class RssDetailActivity extends DetailActivity {
         //parse the html and apply some styles
         Document doc = Jsoup.parse(item.getDescription());
         String html = WebHelper.docToBetterHTML(doc, this);
-        ;
 
         wb.getSettings().setJavaScriptEnabled(true);
         wb.loadDataWithBaseURL(item.getLink(), html, "text/html", "UTF-8", "");

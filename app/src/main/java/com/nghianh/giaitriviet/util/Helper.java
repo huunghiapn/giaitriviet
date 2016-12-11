@@ -403,7 +403,7 @@ public class Helper {
                 if (!firstParameter) {
                     parametersAsQueryString.append(PARAMETER_DELIMITER);
                 }
-                parametersAsQueryString.append(parameterName).append(PARAMETER_EQUALS_CHAR).append(URLEncoder.encode((String) parameters.get(parameterName)));
+                parametersAsQueryString.append(parameterName).append(PARAMETER_EQUALS_CHAR).append(URLEncoder.encode(parameters.get(parameterName)));
                 firstParameter = false;
             }
         }

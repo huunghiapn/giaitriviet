@@ -279,7 +279,6 @@ public class RssFragment extends Fragment {
                                 "\n\n" + descriptionvalue + ": \n" + FeedDescription +
                                 "\n\n" + linkvalue + ": \n" + FeedLink);
                     }
-                    ;
 
                     builder.setNegativeButton(getResources().getString(R.string.ok), null)
                             .setCancelable(true);

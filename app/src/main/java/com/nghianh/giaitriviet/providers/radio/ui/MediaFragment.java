@@ -178,7 +178,7 @@ public class MediaFragment extends Fragment implements OnClickListener, RadioLis
                 urlToPlay = (UrlParser.getUrl(arguments[0]));
 
                 if (isPlaying()) {
-                    if (!mRadioManager.getService().getRadioUrl().equals(urlToPlay)) {
+                    if (!RadioManager.getService().getRadioUrl().equals(urlToPlay)) {
                         mAct.runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(mAct, getResources().getString(R.string.radio_playing_other), Toast.LENGTH_LONG).show();

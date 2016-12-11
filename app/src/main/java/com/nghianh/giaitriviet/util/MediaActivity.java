@@ -2,7 +2,6 @@ package com.nghianh.giaitriviet.util;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -239,7 +238,7 @@ public class MediaActivity extends AppCompatActivity {
 
             } else {
                 url = url.replace(" ", "%20");
-                DownloadManager downloadManager = (DownloadManager) ((Activity) context).getSystemService(Context.DOWNLOAD_SERVICE);
+                DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
                 DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
                 String name = URLUtil.guessFileName(url, null, MimeTypeMap.getFileExtensionFromUrl(url));
                 String title = "File";

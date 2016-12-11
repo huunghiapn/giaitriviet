@@ -31,7 +31,6 @@ public class SplashScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
-
         new DownloadFileFromURL().execute(getString(R.string.SETTING_URL));
 
     }

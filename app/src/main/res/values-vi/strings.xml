@@ -59,4 +59,9 @@
     <string name="settings_fontsize">Cỡ chữ</string>
     <string name="settings_aboutus_summary">Thông tin về ứng dụng</string>
     <string name="report_die_link">Báo link TV đã hỏng?</string>
+    <string name="description_material_bold">Giao diện hiện đại, đơn giản, nhanh gọn nhất từ trước đến nay</string>
+    <string name="description_material_metaphor">Bao gồm các tin tức thời sự, các kênh truyền hình, radio mới nhất trong nước và quốc tế</string>
+    <string name="description_material_motion">Ứng dụng này là miễn phí, nó sẽ luôn là miễn phí cho đến khi nào các nhà cung cấp truyền hình, tin tức không cho phép tôi cung cấp các nội dung này miến phí nữa.</string>
+    <string name="description_material_shadow">Within the material environment, virtual lights illuminate the scene. Key lights create directional shadows, while ambient light creates soft shadows from all angles.</string>
+    <string name="label_grant_permissions">Vui lòng cấp quyền truy cập vào bộ nhớ để ứng dụng hoạt động tốt hơn. Cám ơn !</string>
 </resources>

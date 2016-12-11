@@ -151,9 +151,7 @@ public class TweetsFragment extends Fragment {
         private final String URL_AUTH = URL_BASE + "/oauth2/token";
 
         private final String CONSUMER_KEY = getResources().getString(R.string.twitter_api_consumer_key);
-        ;
         private final String CONSUMER_SECRET = getResources().getString(R.string.twitter_api_consumer_secret_key);
-        ;
 
         private String authenticateApp() {
 

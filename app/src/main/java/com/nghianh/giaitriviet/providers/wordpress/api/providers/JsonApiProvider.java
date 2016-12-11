@@ -108,7 +108,7 @@ public class JsonApiProvider implements WordpressProvider {
 
                 for (int i = 0; i < posts.length(); i++) {
                     try {
-                        JSONObject post = (JSONObject) posts.getJSONObject(i);
+                        JSONObject post = posts.getJSONObject(i);
                         PostItem item = itemFromJsonObject(post);
 
                         //Complete the post in the background (if enabled)

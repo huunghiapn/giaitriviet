@@ -145,7 +145,7 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback 
                             ((c.getWidth() / 2) + (int) (2 * data[i] * offset + offset)),
                             c.getHeight() - (int) (i * c.getHeight() / resolution),
                             ((c.getWidth() / 2) + (int) (2 * data[i] * offset + offset) - 10),
-                            c.getHeight() - (int) (i * c.getHeight() / resolution
+                            c.getHeight() - (i * c.getHeight() / resolution
                                     + c.getHeight() / resolution + 1),
                             p);
                 }
@@ -163,8 +163,8 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback 
                     if (cToggle2 == 1) {
                         p.setColor(Color.argb((int) Math.abs(offset * 5 * data[i]), 255, (i / 2), 0));
                     }
-                    c.drawRect(0, c.getHeight() - (int) (i * c.getHeight() / resolution),
-                            c.getWidth(), c.getHeight() - (int) ((i + 1) * c.getHeight() / resolution),
+                    c.drawRect(0, c.getHeight() - i * c.getHeight() / resolution,
+                            c.getWidth(), c.getHeight() - (i + 1) * c.getHeight() / resolution,
                             p);
                 }
             }
@@ -234,12 +234,12 @@ public class DrawingPanel extends SurfaceView implements SurfaceHolder.Callback 
                         p.setColor(Color.argb(255, 255, (i / 2), 0));
                     }
                     c.drawRect(
-                            ((c.getWidth() / 2) + (int) (2 * data[i])),
+                            ((c.getWidth() / 2) + 2 * data[i]),
                             c.getHeight()
-                                    - (int) (i * c.getHeight() / resolution),
-                            ((c.getWidth() / 2) - (int) (2 * data[i])),
+                                    - i * c.getHeight() / resolution,
+                            ((c.getWidth() / 2) - 2 * data[i]),
                             c.getHeight()
-                                    - (int) (i * c.getHeight() / resolution + c
+                                    - (i * c.getHeight() / resolution + c
                                     .getHeight() / resolution), p);
                 }
             }

@@ -41,7 +41,6 @@ import com.nghianh.giaitriviet.util.ExpandedListView;
 import com.nghianh.giaitriviet.util.Helper;
 import com.nghianh.giaitriviet.util.MediaActivity;
 import com.nghianh.giaitriviet.util.WebHelper;
-import com.nghianh.giaitriviet.util.layout.TrackingScrollView;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
@@ -126,15 +125,12 @@ public class WordpressDetailActivity extends DetailActivity implements JsonApiPo
                     }
                 });
 
-                ((TrackingScrollView) findViewById(R.id.scroller)).setOnTouchListener(new View.OnTouchListener() {
+                findViewById(R.id.scroller).setOnTouchListener(new View.OnTouchListener() {
 
                     @SuppressLint("ClickableViewAccessibility")
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        if ((findViewById(R.id.progressBar).getVisibility() == View.VISIBLE) && android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.JELLY_BEAN)
-                            return true;
-                        else
-                            return false;
+                        return (findViewById(R.id.progressBar).getVisibility() == View.VISIBLE) && android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.JELLY_BEAN;
                     }
                 });
             }

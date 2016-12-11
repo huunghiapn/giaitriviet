@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements NavDrawerCallback
     private NavDrawerFragment mNavigationDrawerFragment;
     public static final int progress_bar_type = 0;
 
+    public static final String PREF_KEY_FIRST_START = "com.nghianh.giaitriviet.PREF_KEY_FIRST_START";
+    public static final int REQUEST_CODE_INTRO = 1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements NavDrawerCallback
             boolean firstStart = prefs.getBoolean("firstStart", true);
 
             if (firstStart) {
+                Intent intent = new Intent(this, SplashIntroActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_INTRO);
 
                 final ServiceStarter alarm = new ServiceStarter();
 
@@ -162,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavDrawerCallback
         }
 
         AppRate.with(this)
-                .setInstallDays(3) // default 10, 0 means install day.
+                .setInstallDays(0) // default 10, 0 means install day.
                 .setLaunchTimes(3) // default 10
                 .setRemindInterval(2) // default 1
                 .setShowLaterButton(true) // default true

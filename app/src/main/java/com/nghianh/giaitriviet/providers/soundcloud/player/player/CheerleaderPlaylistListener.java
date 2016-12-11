@@ -12,7 +12,7 @@ public interface CheerleaderPlaylistListener {
      *
      * @param track track added.
      */
-    public void onTrackAdded(TrackObject track);
+    void onTrackAdded(TrackObject track);
 
 
     /**
@@ -21,5 +21,5 @@ public interface CheerleaderPlaylistListener {
      * @param track   track removed.
      * @param isEmpty true if the playlist is empty after deletion.
      */
-    public void onTrackRemoved(TrackObject track, boolean isEmpty);
+    void onTrackRemoved(TrackObject track, boolean isEmpty);
 }

@@ -355,26 +355,26 @@ public class MediaSessionWrapper {
         /**
          * Called when play is requested.
          */
-        public void onPlay();
+        void onPlay();
 
         /**
          * Called when pause is requested.
          */
-        public void onPause();
+        void onPause();
 
         /**
          * Called when next track should be played.
          */
-        public void onSkipToNext();
+        void onSkipToNext();
 
         /**
          * Called when previous track should be played.
          */
-        public void onSkipToPrevious();
+        void onSkipToPrevious();
 
         /**
          * Called when play/pause button is toggled.
          */
-        public void onPlayPauseToggle();
+        void onPlayPauseToggle();
     }
 }

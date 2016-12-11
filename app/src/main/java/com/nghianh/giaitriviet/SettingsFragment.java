@@ -176,7 +176,7 @@ public class SettingsFragment extends PreferenceFragment implements
 
         if (HIDE_RATE_MY_APP) {
             PreferenceCategory other = (PreferenceCategory) findPreference("other");
-            Preference preference = (Preference) findPreference("rate");
+            Preference preference = findPreference("rate");
             other.removePreference(preference);
         }
 

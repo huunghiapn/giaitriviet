@@ -99,7 +99,7 @@ public class JetPackProvider implements WordpressProvider {
 
                 for (int i = 0; i < posts.length(); i++) {
                     try {
-                        JSONObject post = (JSONObject) posts.getJSONObject(i);
+                        JSONObject post = posts.getJSONObject(i);
                         PostItem item = itemFromJsonObject(post);
 
                         if (!item.getId().equals(info.ignoreId)) {

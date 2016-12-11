@@ -52,7 +52,7 @@ public class WordpressListAdapter extends ArrayAdapter<PostItem> {
 
     @SuppressLint("InflateParams")
     public View getView(int position, View convertView, ViewGroup parent) {
-        PostItem newsItem = (PostItem) listData.get(position);
+        PostItem newsItem = listData.get(position);
 
         //if it is the first item, give a special treatment.
         if (position == 0 && (null != newsItem.getAttachmentUrl() && !newsItem.getAttachmentUrl().equals("")) && !simpleMode) {
