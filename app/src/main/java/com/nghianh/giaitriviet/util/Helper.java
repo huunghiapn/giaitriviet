@@ -302,7 +302,7 @@ public class Helper {
             ListTV.add(CHINA);
             ListTV.add(PHIM_TH);
             ListTV.add(SPORTS);
-            //ListTV.add(_18PLUS);
+            ListTV.add(_18PLUS);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -45,8 +45,8 @@ repositories {
 dependencies {
     compile 'com.heinrichreimersoftware:material-intro:1.6'
     compile 'com.github.hotchemi:android-rate:1.0.1'
-    //compile 'fm.jiecao:jiecaovideoplayer:3.6.3'
-    compile 'fm.jiecao:jiecaovideoplayer:4.8.3'
+    compile 'fm.jiecao:jiecaovideoplayer:3.6.2'
+    //compile 'fm.jiecao:jiecaovideoplayer:4.8.3'
     //compile 'fm.jiecao:jiecaovideoplayer:5.3'
     compile 'com.github.mark-dlc:RadioPlayerService:88b5de0'
     compile 'org.jsoup:jsoup:1.10.1'

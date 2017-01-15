@@ -172,7 +172,7 @@ public class TvFragment extends Fragment {
                 //Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_actionbar);
                 //toolbar.setTitle(spinner.getSelectedItem().toString());
                 currentTV = lblTVUrl[position];
-                jcVideoPlayerStandard.setUp(lblTVUrl[position], JCVideoPlayer.SCREEN_LAYOUT_NORMAL, spinner.getSelectedItem().toString());
+                jcVideoPlayerStandard.setUp(lblTVUrl[position], spinner.getSelectedItem().toString());
                 jcVideoPlayerStandard.thumbImageView.setImageResource(R.drawable.ic_launcher);
                 jcVideoPlayerStandard.startButton.performClick();
             }

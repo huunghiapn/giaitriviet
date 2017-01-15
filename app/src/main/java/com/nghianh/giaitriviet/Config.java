@@ -50,7 +50,7 @@ public class Config {
                 new String[]{"https://news.google.com/news?cf=all&hl=vi&pz=1&ned=vi_vn&output=rss"}));
 
         i.add(new NavItem("TV Online", NavItem.SECTION));
-        String TV_GROUP[] = {"VN VTV", "VN HTV", "VN VTC", "VN MobiTV", "VN DIA PHUONG", "HAI NGOAI", "QUOC TE TH", "CHINA", "PHIM TH", "SPORTS"};//, "18+"};
+        String TV_GROUP[] = {"VN VTV", "VN HTV", "VN VTC", "VN MobiTV", "VN DIA PHUONG", "HAI NGOAI", "QUOC TE TH", "CHINA", "PHIM TH", "SPORTS", "18+"};
 
         for (int j = 0; j < TV_GROUP.length; j++) {
             i.add(new NavItem(TV_GROUP[j], R.drawable.play_icon, NavItem.ITEM, TvFragment.class,
