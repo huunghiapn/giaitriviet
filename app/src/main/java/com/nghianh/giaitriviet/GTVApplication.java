@@ -17,32 +17,23 @@ package com.nghianh.giaitriviet;
 
 import android.app.Application;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 /**
  * Placeholder application to facilitate overriding Application methods for debugging and testing.
  */
 public class GTVApplication extends Application {
 
-  protected String userAgent;
+  //protected String userAgent;
 
   @Override
   public void onCreate() {
     super.onCreate();
-    /*userAgent = Util.getUserAgent(this, getString(R.string.app_name));
-    if (LeakCanary.isInAnalyzerProcess(this)) {
-      // This process is dedicated to LeakCanary for heap analysis.
-      // You should not init your app in this process.
-      return;
-    }
-    LeakCanary.install(this);*/
+    Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+      @Override
+      public void uncaughtException(Thread thread, Throwable ex) {
+        FirebaseCrash.report(ex);
+      }
+    });
   }
-
-  /*public DataSource.Factory buildDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
-    return new DefaultDataSourceFactory(this, bandwidthMeter,
-        buildHttpDataSourceFactory(bandwidthMeter));
-  }
-
-  public HttpDataSource.Factory buildHttpDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
-    return new DefaultHttpDataSourceFactory(userAgent, bandwidthMeter);
-  }*/
-
 }

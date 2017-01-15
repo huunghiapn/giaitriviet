@@ -130,7 +130,7 @@ public class TvFragment extends Fragment {
         });
         setHasOptionsMenu(true);
         myHandler = new Handler();
-        myHandler.postDelayed(myRunnable, 300000);
+        myHandler.postDelayed(myRunnable, 180000);
 
         return rl;
     }

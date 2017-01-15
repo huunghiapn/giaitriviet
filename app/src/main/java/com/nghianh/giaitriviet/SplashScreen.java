@@ -11,16 +11,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.crashlytics.android.Crashlytics;
-
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-
-import io.fabric.sdk.android.Fabric;
 
 import static com.nghianh.giaitriviet.MainActivity.progress_bar_type;
 
@@ -30,7 +26,7 @@ public class SplashScreen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
         new DownloadFileFromURL().execute(getString(R.string.SETTING_URL));
 
     }

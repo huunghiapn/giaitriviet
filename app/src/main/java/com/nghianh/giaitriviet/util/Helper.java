@@ -303,7 +303,7 @@ public class Helper {
             ListTV.add(PHIM_TH);
             ListTV.add(SPORTS);
             //ListTV.add(_18PLUS);
-            //System.out.println(ListTV.toString());
+
         } catch (Exception e) {
             e.printStackTrace();
         }

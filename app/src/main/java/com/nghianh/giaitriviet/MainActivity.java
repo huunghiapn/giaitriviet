@@ -392,32 +392,31 @@ public class MainActivity extends AppCompatActivity implements NavDrawerCallback
                     }
                 }, 2000);
             } else {
-                super.onBackPressed();
+                //super.onBackPressed();
+                //super.onBackPressed();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(getString(R.string.dialog_exit))
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setNeutralButton("Help friends find me", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                showInvite();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
                 return;
             }
-
-            //super.onBackPressed();
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getString(R.string.dialog_exit))
-                    .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    })
-                    .setNeutralButton("Help friends find me", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                            showInvite();
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
         }
     }
 
