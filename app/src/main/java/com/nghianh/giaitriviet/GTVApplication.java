@@ -18,22 +18,25 @@ package com.nghianh.giaitriviet;
 import android.app.Application;
 
 import com.google.firebase.crash.FirebaseCrash;
+import com.nghianh.giaitriviet.util.Log;
 
 /**
  * Placeholder application to facilitate overriding Application methods for debugging and testing.
  */
 public class GTVApplication extends Application {
 
-  //protected String userAgent;
+    //protected String userAgent;
 
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-      @Override
-      public void uncaughtException(Thread thread, Throwable ex) {
-        FirebaseCrash.report(ex);
-      }
-    });
-  }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable ex) {
+                FirebaseCrash.report(ex);
+                Log.e("GTVApplication", ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
+    }
 }

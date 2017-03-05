@@ -1,10 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/lib/com.nghianh.giaitriviet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/lib/com.nghianh.giaitriviet"
     android:background="@color/black">
 
-    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+    <com.nghianh.giaitriviet.JCVideoPlayerAdmob
         android:id="@+id/custom_videoplayer_standard"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -13,10 +13,10 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="50dp"
+            android:layout_gravity="bottom"
             android:src="@drawable/bullet_error"
             app:srcCompat="@android:drawable/ic_dialog_email" />
-    </fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard>
+    </com.nghianh.giaitriviet.JCVideoPlayerAdmob>
+
 
 </RelativeLayout>

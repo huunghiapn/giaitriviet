@@ -23,8 +23,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.nghianh.giaitriviet.MainActivity;
 import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.MainActivity;
 import com.nghianh.giaitriviet.providers.wordpress.PostItem;
 import com.nghianh.giaitriviet.providers.wordpress.api.WordpressGetTask;
 import com.nghianh.giaitriviet.providers.wordpress.api.WordpressGetTaskInfo;

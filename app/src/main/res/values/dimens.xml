@@ -34,5 +34,7 @@
     <dimen name="simple_sound_cloud_notification_subtitle">14sp</dimen>
     <dimen name="simple_sound_cloud_notification_icon">64dp</dimen>
     <dimen name="simple_sound_cloud_notification_padding">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
 
 </resources>

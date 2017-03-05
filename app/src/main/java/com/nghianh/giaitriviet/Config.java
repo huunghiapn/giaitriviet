@@ -2,11 +2,11 @@ package com.nghianh.giaitriviet;
 
 import com.nghianh.giaitriviet.drawer.NavItem;
 import com.nghianh.giaitriviet.fav.ui.FavFragment;
+import com.nghianh.giaitriviet.fragment.GroupChannelGirdFragment;
+import com.nghianh.giaitriviet.fragment.SettingsFragment;
 import com.nghianh.giaitriviet.providers.facebook.FacebookFragment;
 import com.nghianh.giaitriviet.providers.radio.ui.MediaFragment;
 import com.nghianh.giaitriviet.providers.rss.ui.RssFragment;
-import com.nghianh.giaitriviet.providers.tv.TV_Link;
-import com.nghianh.giaitriviet.providers.tv.TvFragment;
 import com.nghianh.giaitriviet.providers.yt.ui.VideosFragment;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class Config {
     public static final boolean USE_WP_FRIENDLY = true;
 
     //If ads are enabled, also show them on the youtube layout
-    public static final boolean ADMOB_YOUTUBE = true;
+    public static final boolean ADMOB_YOUTUBE = false;
 
 
     public static List<NavItem> configuration() {
@@ -38,8 +38,11 @@ public class Config {
         //DONT MODIFY ABOVE THIS LINE
 
         //Some sample content is added below, please refer to your documentation for more information about configuring this file properly
-        i.add(new NavItem("Today hot news", NavItem.SECTION));
+        i.add(new NavItem("TV Online", NavItem.SECTION));
+        i.add(new NavItem("TVOnline", R.drawable.ic_launcher, NavItem.ITEM, GroupChannelGirdFragment.class,
+                new String[]{}));
 
+        i.add(new NavItem("Today hot news", NavItem.SECTION));
         i.add(new NavItem("VNExpress", R.drawable.vn_expess_icon32x32, NavItem.ITEM, RssFragment.class,
                 new String[]{"http://vnexpress.net/rss/tin-moi-nhat.rss"}));
         i.add(new NavItem("Tuoi Tre", R.drawable.tuoitre_icon, NavItem.ITEM, RssFragment.class,
@@ -48,14 +51,6 @@ public class Config {
                 new String[]{"http://www.24h.com.vn/upload/rss/tintuctrongngay.rss"}));
         i.add(new NavItem("", R.drawable.ggnews, NavItem.ITEM, RssFragment.class,
                 new String[]{"https://news.google.com/news?cf=all&hl=vi&pz=1&ned=vi_vn&output=rss"}));
-
-        i.add(new NavItem("TV Online", NavItem.SECTION));
-        String TV_GROUP[] = {"VN VTV", "VN HTV", "VN VTC", "VN MobiTV", "VN DIA PHUONG", "HAI NGOAI", "QUOC TE TH", "CHINA", "PHIM TH", "SPORTS", "18+"};
-
-        for (int j = 0; j < TV_GROUP.length; j++) {
-            i.add(new NavItem(TV_GROUP[j], R.drawable.play_icon, NavItem.ITEM, TvFragment.class,
-                    new String[]{TV_Link.LINK01, String.valueOf(j)}));
-        }
 
         i.add(new NavItem("Radio Shoutcast", NavItem.SECTION));
         i.add(new NavItem("VN-VOV", R.drawable.vov_channel_icon, NavItem.ITEM, MediaFragment.class,

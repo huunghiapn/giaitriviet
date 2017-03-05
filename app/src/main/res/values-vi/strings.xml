@@ -2,13 +2,13 @@
 <resources>
     <string name="app_name">Giải trí Việt</string>
     <string name="about_header">Về chúng tôi</string>
-    <string name="about_text">Thế giới giải trí tổng hợp cho bạn<![CDATA[     <b>Version 1.0.8</b>     <br><br>Cám ơn bạn đã sử dụng sản phẩm này.<br><br>     <i>Phát triển bởi NghiaNH&#174;</i>     ]]></string>
+    <string name="about_text">Thế giới giải trí tổng hợp cho bạn<![CDATA[     <b>Version 2.0.1</b>     <br><br>Cám ơn bạn đã sử dụng sản phẩm này.<br><br>     <i>Phát triển bởi NghiaNH&#174;</i>     ]]></string>
     <string name="already_loading">Nội dung mới nhất đã được cập nhật!</string>
     <string name="cancel">Bỏ qua</string>
     <string name="comments">Bình luận</string>
     <string name="dialog_connection_description">Không thể kết nối tới máy chủ trong chốc lát. Bạn có thể check những mục yêu thích hoặc các mục giải trí khác từ menu!</string>
     <string name="dialog_connection_title">Không có kết nối</string>
-    <string name="dialog_download">Đang tải dữ liệu. Vui lòng đợi giây lát...</string>
+    <string name="dialog_download">Đang tải dữ liệu...</string>
     <string name="dialog_exit">Bạn muốn thoát app</string>
     <string name="dialog_internet_description">Dường như thiết bị của bạn không có kết nối internet, ứng dụng cần kết nối internet để cập nhật những nội dung mới nhất. Bạn có thể xem những mục yêu thích hoặc các mục giải trí khác từ menu!</string>
     <string name="dialog_internet_title">Mất kết nối</string>

@@ -18,8 +18,8 @@ import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
 import android.util.Xml;
 
-import com.nghianh.giaitriviet.MainActivity;
 import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.MainActivity;
 import com.nghianh.giaitriviet.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -66,67 +66,6 @@ public class RssService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.v("RSS Service", "stopped");
-    }
-
-    private class ProgressFactory extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            SharedPreferences spUpdate = getSharedPreferences("rssUpdate", 0);
-            String lastTitle = spUpdate.getString("lastTitle", "No feed");
-            String feedLink = spUpdate.getString("feedLink",
-                    getString(R.string.rss_push_url));
-            String rssFeed = "";
-            // Initialize Connection
-            try {
-                feedUrl = new URL(feedLink);
-                feedURLConnection = feedUrl.openConnection();
-                inputStream = feedURLConnection.getInputStream();
-            } catch (Exception e) {
-                Log.printStackTrace(e);
-            }
-            String title = "";
-            String summary = "";
-            String feedTitle = "";
-            try {
-                CharSequence[] entry = getEntry(rssFeed);
-                title = (String) entry[0];
-                summary = (String) entry[1];
-                feedTitle = (String) entry[2];
-                if (!lastTitle.equalsIgnoreCase(title) && entry[0] != TITLE_ERROR) {
-
-                    showNotification(title, summary, feedTitle);
-                    // store last title so next time will not notify for same rss
-                    Editor editor = spUpdate.edit();
-                    editor.putString("lastTitle", title);
-                    editor.commit();
-                }
-            } catch (XmlPullParserException e) {
-                Log.printStackTrace(e);
-            } catch (Exception e) {
-                Log.printStackTrace(e);
-            }
-            try {
-                inputStream.close();
-            } catch (Exception e) {
-                Log.printStackTrace(e);
-            }
-
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-        }
     }
 
     private CharSequence[] getEntry(String rssFeed)
@@ -196,6 +135,67 @@ public class RssService extends Service {
         mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
+
+    private class ProgressFactory extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            SharedPreferences spUpdate = getSharedPreferences("rssUpdate", 0);
+            String lastTitle = spUpdate.getString("lastTitle", "No feed");
+            String feedLink = spUpdate.getString("feedLink",
+                    getString(R.string.rss_push_url));
+            String rssFeed = "";
+            // Initialize Connection
+            try {
+                feedUrl = new URL(feedLink);
+                feedURLConnection = feedUrl.openConnection();
+                inputStream = feedURLConnection.getInputStream();
+            } catch (Exception e) {
+                Log.printStackTrace(e);
+            }
+            String title = "";
+            String summary = "";
+            String feedTitle = "";
+            try {
+                CharSequence[] entry = getEntry(rssFeed);
+                title = (String) entry[0];
+                summary = (String) entry[1];
+                feedTitle = (String) entry[2];
+                if (!lastTitle.equalsIgnoreCase(title) && entry[0] != TITLE_ERROR) {
+
+                    showNotification(title, summary, feedTitle);
+                    // store last title so next time will not notify for same rss
+                    Editor editor = spUpdate.edit();
+                    editor.putString("lastTitle", title);
+                    editor.commit();
+                }
+            } catch (XmlPullParserException e) {
+                Log.printStackTrace(e);
+            } catch (Exception e) {
+                Log.printStackTrace(e);
+            }
+            try {
+                inputStream.close();
+            } catch (Exception e) {
+                Log.printStackTrace(e);
+            }
+
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
     }
 
 }

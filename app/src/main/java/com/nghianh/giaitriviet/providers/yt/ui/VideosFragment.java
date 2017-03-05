@@ -31,8 +31,8 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.nghianh.giaitriviet.MainActivity;
 import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.MainActivity;
 import com.nghianh.giaitriviet.providers.yt.VideosAdapter;
 import com.nghianh.giaitriviet.providers.yt.api.RetrieveVideos;
 import com.nghianh.giaitriviet.providers.yt.api.object.ReturnItem;
@@ -49,29 +49,24 @@ import java.util.Map;
  * This activity is used to display a list of vidoes
  */
 public class VideosFragment extends Fragment {
+    private static int TYPE_SEARCH = 1;
+    private static int TYPE_PLAYLIST = 2;
+    public RelativeLayout pDialog;
     //Layout references
     private ListView listView;
     private View footerView;
-    public RelativeLayout pDialog;
-
     private LinearLayout ll;
     private Activity mAct;
-
     //Stores information
     private ArrayList<Video> videoList;
     private VideosAdapter videoAdapter;
     private RetrieveVideos videoApiClient;
-
     //Keeping track of location & status
     private String upcomingPageToken;
     private boolean isLoading = true;
     private boolean isFirstLoad = true;
     private int currentType;
     private String searchQuery;
-
-    private static int TYPE_SEARCH = 1;
-    private static int TYPE_PLAYLIST = 2;
-
     private List<Map<String, String>> ListYT;
     private InterstitialAd mInterstitialAd;
 

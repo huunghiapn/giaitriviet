@@ -20,10 +20,13 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.security.ProviderInstaller;
 import com.nghianh.giaitriviet.R;
-import com.nghianh.giaitriviet.SettingsFragment;
+import com.nghianh.giaitriviet.fragment.SettingsFragment;
+import com.nghianh.giaitriviet.model.GroupTVChannel;
+import com.nghianh.giaitriviet.model.TVChannel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.helper.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -46,9 +49,9 @@ import java.util.Map;
 
 public class Helper {
 
-    private static boolean DISPLAY_DEBUG = true;
     private static final char PARAMETER_DELIMITER = '&';
     private static final char PARAMETER_EQUALS_CHAR = '=';
+    private static boolean DISPLAY_DEBUG = true;
 
     public static void noConnection(final Context context, String message) {
 
@@ -96,11 +99,9 @@ public class Helper {
             adView.setVisibility(View.VISIBLE);
 
             // Look up the AdView as a resource and load a request.
-            //Builder adRequestBuilder = new AdRequest.Builder();
             AdRequest adRequest = new AdRequest.Builder()
                     //.addTestDevice("74C7855A0B5CA4319744B61C668E9BF4")
                     .build();
-            //adRequestBuilder.addTestDevice("74C7855A0B5CA4319744B61C668E9BF4");
             adView.loadAd(adRequest);
         }
     }
@@ -238,7 +239,8 @@ public class Helper {
 
 
     public static List<Map<String, String>> getUrlSetting(String url, Context context) {
-
+        String beginning = "#EXTINF:";
+        String afterNumber = ",";
         //Get the text file
         File file = new File(context.getFilesDir().getPath().toString()
                 + "/List_TV.txt");
@@ -265,32 +267,44 @@ public class Helper {
             Map<String, String> SPORTS = new HashMap<>();
             Map<String, String> _18PLUS = new HashMap<>();
 
-            while ((inputLine = in.readLine()) != null)
-                if (inputLine.contains("EXTINF")) {
-                    if (inputLine.contains("VN-VTV")) {
-                        VN_VTV.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
-                    } else if (inputLine.contains("VN-HTV")) {
-                        VN_HTV.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
-                    } else if (inputLine.contains("VN-VTC")) {
-                        VN_VTC.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
-                    } else if (inputLine.contains("VN-mobiTV")) {
-                        VN_mobiTV.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
-                    } else if (inputLine.contains("VN-DIA PHUONG")) {
-                        VN_DIA_PHUONG.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
-                    } else if (inputLine.contains("HAI NGOAI")) {
-                        HAI_NGOAI.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
-                    } else if (inputLine.contains("CHINA")) {
-                        CHINA.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
-                    } else if (inputLine.contains("QUOC TE TH")) {
-                        QUOC_TE_TH.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
-                    } else if (inputLine.contains("PHIM TH")) {
-                        PHIM_TH.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
-                    } else if (inputLine.contains("SPORTS")) {
-                        SPORTS.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
-                    } else if (inputLine.contains("18+")) {
-                        _18PLUS.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+            ArrayList<TVChannel> tvList = new ArrayList<>();
+            while ((inputLine = in.readLine()) != null) {
+                if (inputLine.contains(beginning) && !inputLine.contains("Updated")) {
+                    TVChannel tvChannel = new TVChannel();
+                    String[] aryString = inputLine.split("\"");
+                    if (aryString.length == 5) {
+                        tvChannel.setChannelName(aryString[1].trim());
+                        tvChannel.setImgUrl(aryString[3].trim());
+                        tvChannel.setGroupName(aryString[4].replace(",", "").trim());
+                        tvChannel.setStreamUrl(in.readLine().replace("|User-Agent=Mozilla/5.0", "").trim());
+                        tvList.add(tvChannel);
                     }
                 }
+            /*if (inputLine.contains("EXTINF")) {
+                if (inputLine.contains("VN-VTV")) {
+                    VN_VTV.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+                } else if (inputLine.contains("VN-HTV")) {
+                    VN_HTV.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+                } else if (inputLine.contains("VN-VTC")) {
+                    VN_VTC.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+                } else if (inputLine.contains("VN-mobiTV")) {
+                    VN_mobiTV.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+                } else if (inputLine.contains("VN-DIA PHUONG")) {
+                    VN_DIA_PHUONG.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+                } else if (inputLine.contains("HAI NGOAI")) {
+                    HAI_NGOAI.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+                } else if (inputLine.contains("CHINA")) {
+                    CHINA.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+                } else if (inputLine.contains("QUOC TE TH")) {
+                    QUOC_TE_TH.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+                } else if (inputLine.contains("PHIM TH")) {
+                    PHIM_TH.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+                } else if (inputLine.contains("SPORTS")) {
+                    SPORTS.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+                } else if (inputLine.contains("18+")) {
+                    _18PLUS.put(inputLine.split(",")[1], in.readLine().replace("|User-Agent=Mozilla/5.0", ""));
+                }*/
+            }
             in.close();
             ListTV.add(VN_VTV);
             ListTV.add(VN_HTV);
@@ -308,6 +322,87 @@ public class Helper {
             e.printStackTrace();
         }
         return ListTV;
+    }
+
+    public static ArrayList<TVChannel> getChannelList(Context context, String grName) {
+        String beginning = "#EXTINF:";
+        String afterNumber = ",";
+        ArrayList<TVChannel> tvList = new ArrayList<>();
+        //Get the text file
+        File file = new File(context.getFilesDir().getPath().toString()
+                + "/List_TV.txt");
+        BufferedReader in = null;
+        try {
+            if (!file.exists()) {
+                in = new BufferedReader(
+                        new InputStreamReader(context.getAssets().open("List_TV.txt")));
+            } else {
+                in = new BufferedReader(new FileReader(file));
+
+            }
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                if (inputLine.contains(beginning) && !inputLine.contains("Updated")) {
+                    TVChannel tvChannel = new TVChannel();
+                    String[] aryString = inputLine.split("\"");
+                    if (aryString.length == 5 && aryString[1].trim().equals(grName)) {
+                        tvChannel.setGroupName(aryString[1].trim());
+                        if (StringUtil.isBlank(aryString[3].trim())) {
+                            tvChannel.setImgUrl("https://code4w.com/wp-content/uploads/2017/03/no-image-available.jpg");
+                        } else {
+                            tvChannel.setImgUrl(aryString[3].trim());
+                        }
+                        tvChannel.setChannelName(aryString[4].replace(",", "").trim());
+                        tvChannel.setStreamUrl(in.readLine().replace("|User-Agent=Mozilla/5.0", "").trim());
+                        tvList.add(tvChannel);
+                    }
+                }
+            }
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tvList;
+    }
+
+    public static ArrayList<GroupTVChannel> getGroupChannelList(Context context) {
+        String beginning = "#EXTINF:";
+        String afterNumber = ",";
+        ArrayList<GroupTVChannel> grChannels = new ArrayList<>();
+        //Get the text file
+        File file = new File(context.getFilesDir().getPath().toString()
+                + "/List_TV.txt");
+        BufferedReader in = null;
+        try {
+            if (!file.exists()) {
+                in = new BufferedReader(
+                        new InputStreamReader(context.getAssets().open("List_TV.txt")));
+            } else {
+                in = new BufferedReader(new FileReader(file));
+
+            }
+            String inputLine;
+            ArrayList<String> aryChannel = new ArrayList<>();
+            while ((inputLine = in.readLine()) != null) {
+                if (inputLine.contains(beginning) && !inputLine.contains("Updated")) {
+                    TVChannel tvChannel = new TVChannel();
+                    String[] aryString = inputLine.split("\"");
+                    if (aryString.length == 5) {
+                        if (!aryChannel.contains(aryString[1].trim())) {
+                            GroupTVChannel groupTVChannel = new GroupTVChannel();
+                            groupTVChannel.setGroupName(aryString[1].trim());
+                            groupTVChannel.setImgUrl(aryString[3].trim());
+                            grChannels.add(groupTVChannel);
+                            aryChannel.add(aryString[1].trim());
+                        }
+                    }
+                }
+            }
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return grChannels;
     }
 
     public static List<Map<String, String>> getYTSetting(Context context) {

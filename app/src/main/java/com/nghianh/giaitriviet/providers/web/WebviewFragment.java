@@ -36,10 +36,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.nghianh.giaitriviet.BackPressFragment;
-import com.nghianh.giaitriviet.MainActivity;
 import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.MainActivity;
 import com.nghianh.giaitriviet.fav.FavDbAdapter;
+import com.nghianh.giaitriviet.fragment.BackPressFragment;
 import com.nghianh.giaitriviet.util.Helper;
 
 import java.io.File;

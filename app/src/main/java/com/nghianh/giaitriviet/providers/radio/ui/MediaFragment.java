@@ -34,9 +34,9 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.nghianh.giaitriviet.MainActivity;
-import com.nghianh.giaitriviet.PermissionsFragment;
 import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.MainActivity;
+import com.nghianh.giaitriviet.fragment.PermissionsFragment;
 import com.nghianh.giaitriviet.providers.radio.NotificationUpdater;
 import com.nghianh.giaitriviet.providers.radio.Radio_Link;
 import com.nghianh.giaitriviet.providers.radio.parser.AlbumArtGetter;
@@ -53,12 +53,15 @@ import co.mobiwise.library.radio.RadioManager;
  */
 public class MediaFragment extends Fragment implements OnClickListener, RadioListener, PermissionsFragment {
 
+    //Auto error solving
+    private static int RETRY_INTERVAL = 7000;
+    private static int RETRY_MAX = 2;
+    private static int audioSessionID = 0;
     private RadioManager mRadioManager;
     private boolean runningOnOldConnection;
     private String[] arguments;
     private String urlToPlay;
     private Activity mAct;
-
     //Layouts
     private DrawingPanel dPanel;
     private ImageView imageView;
@@ -66,17 +69,9 @@ public class MediaFragment extends Fragment implements OnClickListener, RadioLis
     private ProgressBar loadingIndicator;
     private Button buttonPlay;
     private Button buttonStopPlay;
-
-    //Auto error solving
-    private static int RETRY_INTERVAL = 7000;
     private int errorcount = 0;
-    private static int RETRY_MAX = 2;
-
     //If we should use a visualizer or album art
     private boolean VISUALIZER_ENABLED = true;
-
-    private static int audioSessionID = 0;
-
     private InterstitialAd mInterstitialAd;
     private Handler myHandler;
     private Runnable myRunnable = new Runnable() {

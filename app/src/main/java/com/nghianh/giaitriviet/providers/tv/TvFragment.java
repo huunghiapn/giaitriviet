@@ -3,13 +3,10 @@ package com.nghianh.giaitriviet.providers.tv;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,27 +14,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.nghianh.giaitriviet.MainActivity;
+import com.nghianh.giaitriviet.JCVideoPlayerAdmob;
 import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.TVActivity;
+import com.nghianh.giaitriviet.model.TVChannel;
 import com.nghianh.giaitriviet.util.Helper;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.squareup.picasso.Picasso;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 
 /**
@@ -45,45 +33,20 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
  */
 public class TvFragment extends Fragment {
 
-    private MainActivity mAct;
+    protected TVChannel tvChannel;
+    private TVActivity mAct;
     private RelativeLayout rl;
-
-    private JCVideoPlayerStandard jcVideoPlayerStandard;
-    private List<Map<String, String>> ListTV;
-    private String currentTV;
-    private InterstitialAd mInterstitialAd;
-    private Handler myHandler;
-    private Runnable myRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mInterstitialAd = new InterstitialAd(getContext());
-            mInterstitialAd.setAdUnitId(getString(R.string.interstitialAd_id));
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    jcVideoPlayerStandard.startButton.performClick();
-                }
-
-                @Override
-                public void onAdLoaded() {
-                    super.onAdLoaded();
-                    mInterstitialAd.show();
-                }
-            });
-            requestNewInterstitial();
-        }
-    };
+    private JCVideoPlayerAdmob jcVideoPlayerStandard;
 
     /**
      * Called when the activity is first created.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (!(getActivity() instanceof MainActivity)) throw new AssertionError();
+        if (!(getActivity() instanceof TVActivity)) throw new AssertionError();
 
         rl = (RelativeLayout) inflater.inflate(R.layout.fragment_tv, container, false);
-        jcVideoPlayerStandard = (JCVideoPlayerStandard) rl.findViewById(R.id.custom_videoplayer_standard);
+        jcVideoPlayerStandard = (JCVideoPlayerAdmob) rl.findViewById(R.id.custom_videoplayer_standard);
         FloatingActionButton fab = (FloatingActionButton) rl.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,13 +65,12 @@ public class TvFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int id) {
                                 EditText edit = (EditText) dialogView.findViewById(R.id.mailAdd);
                                 String text = edit.getText().toString();
-                                new ReportDiedTV().execute(currentTV, text);
                                 Intent i = new Intent(Intent.ACTION_SEND);
                                 i.setData(Uri.parse("mailto:"));
                                 i.setType("message/rfc822");
                                 i.putExtra(Intent.EXTRA_EMAIL, new String[]{"huunghia.it11@gmail.com"});
                                 i.putExtra(Intent.EXTRA_SUBJECT, "Report TV died link");
-                                i.putExtra(Intent.EXTRA_TEXT, "From: " + text + "\n" + "This TV link died: " + currentTV);
+                                i.putExtra(Intent.EXTRA_TEXT, "From: " + text + "\n" + "This TV link died: " + tvChannel.getStreamUrl());
                                 try {
                                     startActivity(Intent.createChooser(i, "Send mail..."));
                                 } catch (android.content.ActivityNotFoundException ex) {
@@ -129,31 +91,29 @@ public class TvFragment extends Fragment {
             }
         });
         setHasOptionsMenu(true);
-        myHandler = new Handler();
-        myHandler.postDelayed(myRunnable, 180000);
-
         return rl;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mAct = (MainActivity) getActivity();
-
+        mAct = (TVActivity) getActivity();
         Helper.isOnline(mAct, true);
-        ListTV = Helper.getUrlSetting(getString(R.string.SETTING_URL), getContext());
+        playTV(tvChannel);
     }
 
-    private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder()
-                //.addTestDevice("D00090843C9FDF13E3391548194698B9")
-                .build();
-
-        mInterstitialAd.loadAd(adRequest);
+    public void playTV(TVChannel tvChannel) {
+        jcVideoPlayerStandard.setUp(tvChannel.getStreamUrl(), tvChannel.getChannelName());
+        Picasso.with(getContext())
+                .load(tvChannel.getImgUrl())
+                .placeholder(R.drawable.play_icon)
+                .resize(640, 640)
+                .into(jcVideoPlayerStandard.thumbImageView);
+        //jcVideoPlayerStandard.startButton.performClick();
     }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        final String tv_chanels = this.getArguments().getStringArray(MainActivity.FRAGMENT_DATA)[1];
+        /*final String tv_chanels = this.getArguments().getStringArray(MainActivity.FRAGMENT_DATA)[1];
         final String[] lblTVName = Arrays.copyOf(ListTV.get(Integer.parseInt(tv_chanels)).keySet().toArray(), ListTV.get(Integer.parseInt(tv_chanels)).size(), String[].class);
         final String[] lblTVUrl = Arrays.copyOf(ListTV.get(Integer.parseInt(tv_chanels)).values().toArray(), ListTV.get(Integer.parseInt(tv_chanels)).size(), String[].class);
         inflater.inflate(R.menu.tv_menu, menu);
@@ -181,7 +141,7 @@ public class TvFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
     }
 
     @Override
@@ -194,30 +154,17 @@ public class TvFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        myHandler.removeCallbacks(myRunnable);
         JCVideoPlayer.releaseAllVideos();
         super.onDestroy();
     }
 
     @Override
     public void onPause() {
-        super.onPause();
         JCVideoPlayer.releaseAllVideos();
+        super.onPause();
     }
 
-    class ReportDiedTV extends AsyncTask<String, Void, Boolean> {
-        protected Boolean doInBackground(String... url) {
-            Map<String, String> parameters = new HashMap();
-            parameters.put("url", url[0]);
-            parameters.put("email", url[1]);
-            try {
-                Helper.requestUrl("nhuaso9.com/reportDiedTV/", Helper.createQueryStringForParameters(parameters));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-    }
+
 }
 
 

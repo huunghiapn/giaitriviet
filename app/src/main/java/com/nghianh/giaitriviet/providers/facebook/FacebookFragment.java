@@ -19,8 +19,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.nghianh.giaitriviet.MainActivity;
 import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.MainActivity;
 import com.nghianh.giaitriviet.util.Helper;
 import com.nghianh.giaitriviet.util.Log;
 
@@ -36,25 +36,20 @@ import java.util.Date;
 
 public class FacebookFragment extends Fragment {
 
+    private static String API_URL_BEGIN = "https://graph.facebook.com/";
+    private static String API_URL_MIDDLE = "/posts/?access_token=";
+    private static String API_URL_END = "&date_format=U&fields=comments.limit(50).summary(1),likes.limit(0).summary(1),from,picture,message,story,name,link,id,created_time,full_picture,source,type&limit=10";
+    RelativeLayout dialogLayout;
+    String nextpageurl;
+    String username;
+    Boolean isLoading = false;
     private ArrayList<FacebookItem> postList = null;
     private ListView listView = null;
     private View footerView;
     private Activity mAct;
     private DownloadFilesTask mTask;
     private FacebookAdapter postListAdapter = null;
-
     private LinearLayout ll;
-    RelativeLayout dialogLayout;
-
-    String nextpageurl;
-
-    String username;
-
-    Boolean isLoading = false;
-
-    private static String API_URL_BEGIN = "https://graph.facebook.com/";
-    private static String API_URL_MIDDLE = "/posts/?access_token=";
-    private static String API_URL_END = "&date_format=U&fields=comments.limit(50).summary(1),likes.limit(0).summary(1),from,picture,message,story,name,link,id,created_time,full_picture,source,type&limit=10";
 
     @SuppressLint("InflateParams")
     @Override
@@ -114,83 +109,6 @@ public class FacebookFragment extends Fragment {
             postListAdapter.notifyDataSetChanged();
         }
     }
-
-    private class DownloadFilesTask extends AsyncTask<String, Integer, Boolean> {
-
-        boolean initialload;
-
-        DownloadFilesTask(boolean firstload) {
-            this.initialload = firstload;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            if (isLoading) {
-                this.cancel(true);
-            } else {
-                isLoading = true;
-            }
-            if (initialload) {
-                dialogLayout = (RelativeLayout) ll
-                        .findViewById(R.id.progressBarHolder);
-
-                if (dialogLayout.getVisibility() == View.GONE) {
-                    dialogLayout.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.GONE);
-                }
-
-                nextpageurl = (API_URL_BEGIN + username + API_URL_MIDDLE + getResources().getString(R.string.facebook_access_token) + API_URL_END);
-
-                if (null != postList) {
-                    postList.clear();
-                }
-                if (null != listView) {
-                    listView.setAdapter(null);
-                }
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                    listView.addFooterView(footerView);
-                }
-            } else {
-                listView.addFooterView(footerView);
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-
-            if (null != postList && postList.size() > 0) {
-                updateList(initialload);
-            } else {
-                String token = getResources().getString(R.string.facebook_access_token);
-                String message = null;
-                if (token.equals("YOURFACEBOOKTOKENHERE")) {
-                    message = "Debug info: '" + token + "' is most likely not a valid ACCESS token.";
-                }
-                Helper.noConnection(mAct, message);
-            }
-
-            if (dialogLayout.getVisibility() == View.VISIBLE) {
-                dialogLayout.setVisibility(View.GONE);
-                // listView.setVisibility(View.VISIBLE);
-                Helper.revealView(listView, ll);
-
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                    listView.removeFooterView(footerView);
-                }
-            } else {
-                listView.removeFooterView(footerView);
-            }
-            isLoading = false;
-        }
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            JSONObject json = Helper.getJSONObjectFromUrl(nextpageurl);
-            parseJson(json);
-            return true;
-        }
-    }
-
 
     public void parseJson(JSONObject json) {
         if (postList == null) {
@@ -274,6 +192,82 @@ public class FacebookFragment extends Fragment {
                 }
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private class DownloadFilesTask extends AsyncTask<String, Integer, Boolean> {
+
+        boolean initialload;
+
+        DownloadFilesTask(boolean firstload) {
+            this.initialload = firstload;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            if (isLoading) {
+                this.cancel(true);
+            } else {
+                isLoading = true;
+            }
+            if (initialload) {
+                dialogLayout = (RelativeLayout) ll
+                        .findViewById(R.id.progressBarHolder);
+
+                if (dialogLayout.getVisibility() == View.GONE) {
+                    dialogLayout.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                }
+
+                nextpageurl = (API_URL_BEGIN + username + API_URL_MIDDLE + getResources().getString(R.string.facebook_access_token) + API_URL_END);
+
+                if (null != postList) {
+                    postList.clear();
+                }
+                if (null != listView) {
+                    listView.setAdapter(null);
+                }
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                    listView.addFooterView(footerView);
+                }
+            } else {
+                listView.addFooterView(footerView);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+            if (null != postList && postList.size() > 0) {
+                updateList(initialload);
+            } else {
+                String token = getResources().getString(R.string.facebook_access_token);
+                String message = null;
+                if (token.equals("YOURFACEBOOKTOKENHERE")) {
+                    message = "Debug info: '" + token + "' is most likely not a valid ACCESS token.";
+                }
+                Helper.noConnection(mAct, message);
+            }
+
+            if (dialogLayout.getVisibility() == View.VISIBLE) {
+                dialogLayout.setVisibility(View.GONE);
+                // listView.setVisibility(View.VISIBLE);
+                Helper.revealView(listView, ll);
+
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                    listView.removeFooterView(footerView);
+                }
+            } else {
+                listView.removeFooterView(footerView);
+            }
+            isLoading = false;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            JSONObject json = Helper.getJSONObjectFromUrl(nextpageurl);
+            parseJson(json);
+            return true;
         }
     }
 

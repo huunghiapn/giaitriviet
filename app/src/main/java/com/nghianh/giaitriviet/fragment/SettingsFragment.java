@@ -1,4 +1,4 @@
-package com.nghianh.giaitriviet;
+package com.nghianh.giaitriviet.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -20,6 +20,8 @@ import android.support.v4.preference.PreferenceFragment;
 import android.text.Html;
 import android.widget.Toast;
 
+import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.MainActivity;
 import com.nghianh.giaitriviet.billing.BillingProcessor;
 import com.nghianh.giaitriviet.billing.TransactionDetails;
 import com.nghianh.giaitriviet.providers.rss.ServiceStarter;

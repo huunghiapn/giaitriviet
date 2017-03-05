@@ -10,21 +10,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.nghianh.giaitriviet.BackPressFragment;
-import com.nghianh.giaitriviet.MainActivity;
 import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.MainActivity;
+import com.nghianh.giaitriviet.fragment.BackPressFragment;
 
 public class WebviewActivity extends AppCompatActivity {
-
-    private Toolbar mToolbar;
 
     //Options to load a webpage
     public static String URL = "webview_url";
     public static String OPEN_EXTERNAL = "open_external";
     public static String LOAD_DATA = WebviewFragment.LOAD_DATA;
     public static String HIDE_NAVIGATION = WebviewFragment.HIDE_NAVIGATION;
-
     String mWebUrl = null;
+    private Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

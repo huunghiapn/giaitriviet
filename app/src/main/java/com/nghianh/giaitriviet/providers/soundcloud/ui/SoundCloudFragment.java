@@ -25,9 +25,9 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.nghianh.giaitriviet.BackPressFragment;
-import com.nghianh.giaitriviet.MainActivity;
 import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.MainActivity;
+import com.nghianh.giaitriviet.fragment.BackPressFragment;
 import com.nghianh.giaitriviet.providers.soundcloud.TracksAdapter;
 import com.nghianh.giaitriviet.providers.soundcloud.api.SoundCloudClient;
 import com.nghianh.giaitriviet.providers.soundcloud.api.object.TrackObject;

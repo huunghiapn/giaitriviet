@@ -25,8 +25,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.nghianh.giaitriviet.MainActivity;
 import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.MainActivity;
 import com.nghianh.giaitriviet.providers.rss.RSSFeed;
 import com.nghianh.giaitriviet.providers.rss.RSSHandler;
 import com.nghianh.giaitriviet.providers.rss.RSSItem;
@@ -59,6 +59,81 @@ public class RssFragment extends Fragment {
     private LinearLayout ll;
     private String url;
     private RelativeLayout pDialog;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ll = (LinearLayout) inflater.inflate(R.layout.fragment_list, container, false);
+        setHasOptionsMenu(true);
+
+        return ll;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mAct = getActivity();
+
+        url = RssFragment.this.getArguments().getStringArray(MainActivity.FRAGMENT_DATA)[0];
+
+        new MyTask().execute();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.rss_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.refresh_rss:
+                new MyTask().execute();
+                return true;
+            case R.id.info:
+                //show information about the feed in general in a dialog
+                if (myRssFeed != null) {
+                    String FeedTitle = (myRssFeed.getTitle());
+                    String FeedDescription = (myRssFeed.getDescription());
+                    //String FeedPubdate = (myRssFeed.getPubdate()); most times not present
+                    String FeedLink = (myRssFeed.getLink());
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mAct);
+
+                    String titlevalue = getResources().getString(R.string.feed_title_value);
+                    String descriptionvalue = getResources().getString(R.string.feed_description_value);
+                    String linkvalue = getResources().getString(R.string.feed_link_value);
+
+                    if (FeedLink.equals("")) {
+                        builder.setMessage(titlevalue + ": \n" + FeedTitle +
+                                "\n\n" + descriptionvalue + ": \n" + FeedDescription);
+                    } else {
+                        builder.setMessage(titlevalue + ": \n" + FeedTitle +
+                                "\n\n" + descriptionvalue + ": \n" + FeedDescription +
+                                "\n\n" + linkvalue + ": \n" + FeedLink);
+                    }
+
+                    builder.setNegativeButton(getResources().getString(R.string.ok), null)
+                            .setCancelable(true);
+                    builder.create();
+                    builder.show();
+
+                } else {
+
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    static class ViewHolder {
+        TextView listTitle;
+        TextView listPubdate;
+        TextView listDescription;
+        ImageView listThumb;
+        int position;
+    }
 
     public class RssAdapter extends ArrayAdapter<RSSItem> {
 
@@ -144,32 +219,6 @@ public class RssFragment extends Fragment {
 
     }
 
-    static class ViewHolder {
-        TextView listTitle;
-        TextView listPubdate;
-        TextView listDescription;
-        ImageView listThumb;
-        int position;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ll = (LinearLayout) inflater.inflate(R.layout.fragment_list, container, false);
-        setHasOptionsMenu(true);
-
-        return ll;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mAct = getActivity();
-
-        url = RssFragment.this.getArguments().getStringArray(MainActivity.FRAGMENT_DATA)[0];
-
-        new MyTask().execute();
-    }
-
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -243,54 +292,5 @@ public class RssFragment extends Fragment {
             super.onPostExecute(result);
         }
 
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.rss_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.refresh_rss:
-                new MyTask().execute();
-                return true;
-            case R.id.info:
-                //show information about the feed in general in a dialog
-                if (myRssFeed != null) {
-                    String FeedTitle = (myRssFeed.getTitle());
-                    String FeedDescription = (myRssFeed.getDescription());
-                    //String FeedPubdate = (myRssFeed.getPubdate()); most times not present
-                    String FeedLink = (myRssFeed.getLink());
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mAct);
-
-                    String titlevalue = getResources().getString(R.string.feed_title_value);
-                    String descriptionvalue = getResources().getString(R.string.feed_description_value);
-                    String linkvalue = getResources().getString(R.string.feed_link_value);
-
-                    if (FeedLink.equals("")) {
-                        builder.setMessage(titlevalue + ": \n" + FeedTitle +
-                                "\n\n" + descriptionvalue + ": \n" + FeedDescription);
-                    } else {
-                        builder.setMessage(titlevalue + ": \n" + FeedTitle +
-                                "\n\n" + descriptionvalue + ": \n" + FeedDescription +
-                                "\n\n" + linkvalue + ": \n" + FeedLink);
-                    }
-
-                    builder.setNegativeButton(getResources().getString(R.string.ok), null)
-                            .setCancelable(true);
-                    builder.create();
-                    builder.show();
-
-                } else {
-
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

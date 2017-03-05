@@ -1,9 +1,10 @@
-package com.nghianh.giaitriviet;
+package com.nghianh.giaitriviet.activity;
 
 import android.os.Bundle;
 
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
+import com.nghianh.giaitriviet.R;
 
 public class SplashIntroActivity extends IntroActivity {
 
@@ -11,9 +12,9 @@ public class SplashIntroActivity extends IntroActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setButtonBackVisible(true);
+        setButtonBackVisible(false);
         setButtonNextVisible(true);
-        setButtonCtaVisible(true);
+        setButtonCtaVisible(false);
         setButtonCtaTintMode(BUTTON_CTA_TINT_MODE_TEXT);
 
         addSlide(new SimpleSlide.Builder()

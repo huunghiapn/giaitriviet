@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 
 import com.nghianh.giaitriviet.Config;
 import com.nghianh.giaitriviet.CustomIntent;
-import com.nghianh.giaitriviet.MainActivity;
 import com.nghianh.giaitriviet.R;
+import com.nghianh.giaitriviet.activity.MainActivity;
 
 import java.util.List;
 

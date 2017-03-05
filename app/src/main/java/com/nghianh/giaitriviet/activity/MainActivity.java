@@ -1,4 +1,4 @@
-package com.nghianh.giaitriviet;
+package com.nghianh.giaitriviet.activity;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -30,9 +30,15 @@ import com.google.android.gms.appinvite.AppInviteReferral;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.nghianh.giaitriviet.Config;
+import com.nghianh.giaitriviet.CustomIntent;
+import com.nghianh.giaitriviet.R;
 import com.nghianh.giaitriviet.drawer.NavDrawerCallback;
 import com.nghianh.giaitriviet.drawer.NavDrawerFragment;
 import com.nghianh.giaitriviet.drawer.NavItem;
+import com.nghianh.giaitriviet.fragment.BackPressFragment;
+import com.nghianh.giaitriviet.fragment.PermissionsFragment;
+import com.nghianh.giaitriviet.fragment.SettingsFragment;
 import com.nghianh.giaitriviet.providers.rss.ServiceStarter;
 import com.nghianh.giaitriviet.util.Helper;
 import com.nghianh.giaitriviet.util.Log;
@@ -45,24 +51,22 @@ import hotchemi.android.rate.OnClickButtonListener;
 
 public class MainActivity extends AppCompatActivity implements NavDrawerCallback, GoogleApiClient.OnConnectionFailedListener {
 
+    public static final int progress_bar_type = 0;
+    public static final String PREF_KEY_FIRST_START = "com.nghianh.giaitriviet.PREF_KEY_FIRST_START";
+    public static final int REQUEST_CODE_INTRO = 1;
+    private static final int REQUEST_INVITE = 0;
+    private static final String TAG = MainActivity.class.getSimpleName();
     //Data to pass to a fragment
     public static String FRAGMENT_DATA = "transaction_data";
     public static String FRAGMENT_CLASS = "transation_target";
     public static boolean TABLET_LAYOUT = true;
+    private static boolean doubleBackToExitPressedOnce;
     //Permissions Queu
     NavItem queueItem;
     SharedPreferences prefs;
     private Toolbar mToolbar;
     private NavDrawerFragment mNavigationDrawerFragment;
-    public static final int progress_bar_type = 0;
     private GoogleApiClient mGoogleApiClient;
-
-    public static final String PREF_KEY_FIRST_START = "com.nghianh.giaitriviet.PREF_KEY_FIRST_START";
-    public static final int REQUEST_CODE_INTRO = 1;
-
-    private static final int REQUEST_INVITE = 0;
-    private static final String TAG = MainActivity.class.getSimpleName();
-    private static boolean doubleBackToExitPressedOnce;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

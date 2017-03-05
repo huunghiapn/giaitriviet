@@ -1,4 +1,4 @@
-package com.nghianh.giaitriviet;
+package com.nghianh.giaitriviet.activity;
 
 /**
  * Created by NghiaNH on 11/18/2016.
@@ -10,6 +10,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+
+import com.nghianh.giaitriviet.R;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
@@ -18,9 +22,9 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import static com.nghianh.giaitriviet.MainActivity.progress_bar_type;
+import static com.nghianh.giaitriviet.activity.MainActivity.progress_bar_type;
 
-public class SplashScreen extends Activity {
+public class SplashScreenActivity extends Activity {
     private ProgressDialog pDialog;
 
     @Override
@@ -29,6 +33,52 @@ public class SplashScreen extends Activity {
         //Fabric.with(this, new Crashlytics());
         new DownloadFileFromURL().execute(getString(R.string.SETTING_URL));
 
+        final Handler handle = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                pDialog.incrementProgressBy(1);
+            }
+        };
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (pDialog.getProgress() <= pDialog
+                            .getMax()) {
+                        Thread.sleep(200);
+                        handle.sendMessage(handle.obtainMessage());
+                        if (pDialog.getProgress() == pDialog
+                                .getMax()) {
+                            pDialog.dismiss();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * Showing Dialog
+     */
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case progress_bar_type: // we set this to 0
+                pDialog = new ProgressDialog(this);
+                pDialog.setMessage(getString(R.string.dialog_download));
+                pDialog.setIndeterminate(false);
+                pDialog.setMax(100);
+                pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                pDialog.setCancelable(false);
+                pDialog.show();
+                return pDialog;
+            default:
+                return null;
+        }
     }
 
     /**
@@ -77,13 +127,16 @@ public class SplashScreen extends Activity {
                 byte data[] = new byte[1024];
 
                 long total = 0;
+                int percent = 50;
 
                 while ((count = input.read(data)) != -1) {
                     total += count;
                     // publishing the progress....
                     // After this onProgressUpdate will be called
-                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+                    //publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+                    publishProgress("" + percent);
 
+                    percent += 3;
                     // writing data to file
                     output.write(data, 0, count);
                 }
@@ -104,14 +157,6 @@ public class SplashScreen extends Activity {
         }
 
         /**
-         * Updating progress bar
-         */
-        protected void onProgressUpdate(String... progress) {
-            // setting progress percentage
-            pDialog.setProgress(Integer.parseInt(progress[0]));
-        }
-
-        /**
          * After completing background task Dismiss the progress dialog
          **/
         @Override
@@ -129,26 +174,5 @@ public class SplashScreen extends Activity {
             finish();
         }
 
-    }
-
-    /**
-     * Showing Dialog
-     */
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case progress_bar_type: // we set this to 0
-                pDialog = new ProgressDialog(this);
-                pDialog.setMessage(getString(R.string.dialog_download));
-                pDialog.setIndeterminate(false);
-                pDialog.setMax(100);
-                pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                pDialog.setCancelable(true);
-                pDialog.show();
-                return pDialog;
-            default:
-                return null;
-        }
     }
 }

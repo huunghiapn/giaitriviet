@@ -1,4 +1,4 @@
-package com.nghianh.giaitriviet;
+package com.nghianh.giaitriviet.fragment;
 
 /**
  * This is an interface to implement a backpress in Fragments

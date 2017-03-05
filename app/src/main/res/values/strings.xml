@@ -202,7 +202,7 @@
     <!-- Download dialogs -->
     <string name="dialog_download">Downloading file. Please wait...</string>
 
-    <string name="SETTING_URL" translatable="false">http://nhuaso9.com/List_TV.txt</string>
+    <string name="SETTING_URL" translatable="false">http://textuploader.com/53hcw/raw</string>
     <string name="SETTING_YT_URL" translatable="false">http://nhuaso9.com/List_YT.txt</string>
     <string name="report_die_link">Report this channel was died link?</string>
     <string name="description_material_metaphor">Includes the latest news of the day in news sites, radio stations, television channels leading.</string>
@@ -226,4 +226,6 @@
     <string name="send_failed">Send invitation failed!</string>
     <string name="google_play_services_error">google_play_services_error</string>
     <string name="label_grant_permissions"></string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="title_activity_tv" translatable="false">TVActivity</string>
 </resources>
